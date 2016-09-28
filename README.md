@@ -6,6 +6,9 @@ It can cascading-sync data with each component.
 ## Version
 0.0.1
 
+## License
+MIT
+
 ## About this repo
 This AsyncStorage wrapper was initally created for a React-native offline notebook app.
 
