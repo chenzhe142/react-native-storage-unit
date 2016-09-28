@@ -1,0 +1,24 @@
+{
+  "name": "react-native-storage-unit",
+  "version": "0.0.1",
+  "description": "a simple AsyncStorage wrapper for React-native",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chenzhe142/react-native-storage-unit.git"
+  },
+  "keywords": [
+    "react-native",
+    "AsyncStorage",
+    "wrapper"
+  ],
+  "author": "Zhe Chen <zhechen2014@u.northwestern.edu>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chenzhe142/react-native-storage-unit/issues"
+  },
+  "homepage": "https://github.com/chenzhe142/react-native-storage-unit#readme"
+}
