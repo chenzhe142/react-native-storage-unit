@@ -125,4 +125,4 @@ after calling `deleteItem("your_unique_storage_key_2", singleObj2)`, `singleObj`
 3. handle edge cases
 
 ## Contributor
-[Zhe Chen](https://github.com/chenzhe142/)
+Please feel free to create issues & PRs to this repo. Huge thanks!
