@@ -3,14 +3,15 @@ A simple AsyncStorage wrapper for React-native.
 
 It can cascading-sync data with each component.
 
+## Version
+0.0.1
+
 ## About this repo
 This AsyncStorage wrapper was initally created for a React-native offline notebook app.
 
 I created my own implementation, because I want something simple, enough to handle `get/save/update/delete` methods, and save data in `JSON object`.
 
 In addition, I want to automatically sync data change to each components, and trigger each component's re-rendering method.
-
-
 
 ## Installation
 run `npm install react-native-storage-unit --save`
@@ -50,6 +51,20 @@ After initializing `this.state.storage` and `this.storageUnit`, you can pass the
 We can cascade any AsyncStorage data change to any of the components, which will do data syncing.
 
 Components can also easily call methods through `this.props.storageUnit` and get AsyncStorage data from `this.props.storage`
+
+## Data structure
+```javascript
+{
+  "your_unique_storage_key_1": {
+    storageKey: "your_unique_storage_key_1",
+    content: []
+  },
+  "your_unique_storage_key_2": {
+    storageKey: "your_unique_storage_key_1",
+    content: [singleObj, singleObj]
+  }
+}
+```
 
 ## Methods
 
@@ -104,17 +119,10 @@ after calling `deleteItem("your_unique_storage_key_2", singleObj2)`, `singleObj`
 }
 ```
 
+## Todo
+1. refactor code
+2. use more flexible data structure
+3. handle edge cases
 
-## AsyncStorage Data structure
-```javascript
-{
-  "your_unique_storage_key_1": {
-    storageKey: "your_unique_storage_key_1",
-    content: []
-  },
-  "your_unique_storage_key_2": {
-    storageKey: "your_unique_storage_key_1",
-    content: [singleObj, singleObj]
-  }
-}
-```
+## Contributor
+[Zhe Chen](https://github.com/chenzhe142/)
