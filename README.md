@@ -14,7 +14,7 @@ This AsyncStorage wrapper was initally created for a React-native offline notebo
 
 I created my own implementation, because I want something simple, enough to handle `get/save/update/delete` methods, and save data in `JSON object`.
 
-In addition, I want to automatically sync data change to each components, and trigger each component's re-rendering method.
+In addition, I want to automatically sync data change to each component, and trigger each component's re-rendering method.
 
 ## Installation
 run `npm install react-native-storage-unit --save`
@@ -111,13 +111,13 @@ delete one existing object.
   }
 }
 ```
-after calling `deleteItem("your_unique_storage_key_2", singleObj2)`, `singleObj` will be removed.
+after calling `deleteItem("your_unique_storage_key_2", singleObj2)`, `singleObj2` will be removed.
 
 ```javascript
 {
   "your_unique_storage_key_2": {
     storageKey: "your_unique_storage_key_1",
-    content: [singleObj1, singleObj2]
+    content: [singleObj1]
   }
 }
 ```
