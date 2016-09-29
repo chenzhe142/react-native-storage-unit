@@ -4,7 +4,7 @@ A simple AsyncStorage wrapper for React-native.
 It can cascading-sync data with each component.
 
 ## Version
-0.0.1
+0.0.2
 
 ## License
 MIT

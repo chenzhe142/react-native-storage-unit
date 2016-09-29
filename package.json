@@ -1,6 +1,6 @@
 {
   "name": "react-native-storage-unit",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "a simple AsyncStorage wrapper for React-native",
   "main": "index.js",
   "scripts": {
