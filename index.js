@@ -64,7 +64,7 @@ import { AsyncStorage } from 'react-native';
 export default class StorageUnit {
   /**
    * - constructor
-   * @param storage_key_array:
+   * @param {Array} storage_key_array:
    *          a list of presetted unique storageKeys. The type of storage key is string.
    *            example: ["@storageKeys_username, @storageKeys_settings"]
    *
@@ -74,7 +74,7 @@ export default class StorageUnit {
    *          for example, if you want to save username, you can setup
    *          the storageKey as "@storageKey_username"
    *
-   * @param updateStorage_function:
+   * @param {Function} updateStorage_function:
    *           a simple state update function, received from component that wants to store/cache
    *           AsyncStorage data.
    */
