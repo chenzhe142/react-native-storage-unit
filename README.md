@@ -10,11 +10,13 @@ It can cascading-sync data with each component.
 MIT
 
 ## About this repo
-This AsyncStorage wrapper was initally created for a React-native offline notebook app.
+This AsyncStorage wrapper was initially created for a React-native offline notebook app.
 
-I created my own implementation, because I want something simple, enough to handle `get/save/update/delete` methods, and save data in `JSON object`.
+I created my own implementation, because I want a simple interface to handle `get/save/update/delete` methods.
 
 In addition, I want to automatically sync data change to each component, and trigger each component's re-rendering method.
+
+This is a Redux-like implementation for AsyncStorage
 
 ## Installation
 run `npm install react-native-storage-unit --save`

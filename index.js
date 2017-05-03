@@ -3,13 +3,27 @@
  *
  * A simple AsyncStorage wrapper, doing get, save, update, and delete
  *
+ * ## data structure ##
+ *
+ * {
+ *  "storageKey_1": {
+ *    storageKey: "storageKey_1",
+ *    content: []
+ *  }
+ *  "storageKey_2": {
+ *    storageKey: "storageKey_2",
+ *    content: []
+ *  }
+ * }
+ *
+ *
  * The concept of this wrapper is cascading both cached AsyncStorage data and methods
  * from the app top level to each components.
  *
  * In order to do this, you should initialize StorageUnit at the entry point of your app:
  *
  * ## code sample ##
- *    export default class SampleApp extends React.Component {
+ *    class SampleApp extends React.Component {
  *      constructor() {
  *        super();
  *        this.state = {
@@ -36,60 +50,35 @@
  * We can cascade any AsyncStorage data change to any of the components, achieving the goal of sync-data.
  * Components can easily call these functions and get AsyncStorage data from them.
  *
- *
- * ## data structure ##
- *
- * {
- *  "storageKey_1": {
- *    storageKey: "storageKey_1",
- *    content: []
- *  }
- *  "storageKey_2": {
- *    storageKey: "storageKey_2",
- *    content: []
- *  }
- * }
- *
- * ##################
- *
- * TODO:
- * 1. refactor code
- * 2. use more structured data for storing
+ * TODO
+ * 1. use pub / sub pattern to rewrite the wrapper
  *
  *
  */
 
 import { AsyncStorage } from 'react-native';
 
-export default class StorageUnit {
+class StorageUnit {
+
   /**
-   * - constructor
-   * @param storage_key_array:
-   *          a list of presetted unique storageKeys. The type of storage key is string.
-   *            example: ["@storageKeys_username, @storageKeys_settings"]
-   *
-   *          StorageUnit uses this to find an object in AsyncStorage,
-   *          or save it to AsyncStorage.
-   *
-   *          for example, if you want to save username, you can setup
-   *          the storageKey as "@storageKey_username"
-   *
-   * @param updateStorage_function:
-   *           a simple state update function, received from component that wants to store/cache
-   *           AsyncStorage data.
+   * StorageUnit constructor
+   * @param  {array} storage_key_array A list of presetted unique storageKeys. Example: ["@storageKeys_username, @storageKeys_settings"]
+   * @param  {function} updateStorage_function A simple state update function, received from component that wants to store/cache AsyncStorage data.
    */
+
   constructor(storage_key_array, updateStorage_function) {
     this.storage_key_array = storage_key_array;
     this.updateStorage_function = updateStorage_function;
     this.initialized = false;
+
+    // this.storage is a local copy of async storage
     this.storage = {};
 
     const self = this;
 
     // fetchData promise
+    // init storage when creating StorageUnit instance
     this.fetchData = new Promise((resolve, reject) => {
-      // init storage when launching
-      // *call get from storage function
       self.count = 0;
       for (let i = 0; i < self.storage_key_array.length; i++) {
         self.getFromAsyncStorage(self.storage_key_array[i]).done((response) => {
@@ -107,27 +96,10 @@ export default class StorageUnit {
     });
   }
 
-  async getFromAsyncStorage(storage_key) {
-    try {
-      let value = await AsyncStorage.getItem(storage_key);
-      if (value !== null){
-        const response = JSON.parse(value);
-        return response;
-      }
-    } catch (error) {
-      console.log('AsyncStorage error: ' + error.message);
-    }
-  }
-
-  async saveToAsyncStorage(storage_key, obj) {
-    try {
-      AsyncStorage.setItem(storage_key, obj);
-      console.log('Saved selection to disk: ' + obj);
-    } catch (error) {
-      console.log('AsyncStorage error: ' + error.message);
-    }
-  }
-
+  /**
+   * @param  {string} storage_key [description]
+   * @return {object}             [description]
+   */
   getItem(storage_key) {
     if (this.initialized === true) {
       for (let i = 0; i < this.storage_key_array.length; i++) {
@@ -140,6 +112,11 @@ export default class StorageUnit {
     return;
   }
 
+  /**
+   * @param  {string} storage_key [description]
+   * @param  {object} item        [description]
+   * @return {void}             [description]
+   */
   saveItem(storage_key, item) {
     // save to async
     // add to storage cache
@@ -158,10 +135,15 @@ export default class StorageUnit {
     });
   }
 
-  // update an item
-  // each item should have an unique id, so that we can figure out which
-  //       one to be updated
-  // update this.storage first, then update AsyncStorage
+  /**
+   * Update an item.
+   * Each item has an unique id.
+   * This function updates this.storage first, then AsyncStorage
+   *
+   * @param  {string} storage_key [description]
+   * @param  {object} singleObj   [description]
+   * @return {void}
+   */
   updateItem(storage_key, singleObj) {
     let items = this.storage[storage_key].content;
     if ((singleObj.id !== undefined) && (items[singleObj.id] !== undefined)) {
@@ -180,6 +162,12 @@ export default class StorageUnit {
     }
   }
 
+  /**
+   * [deleteItem description]
+   * @param  {string} storage_key [description]
+   * @param  {Object} item        [description]
+   * @return {void}             [description]
+   */
   deleteItem(storage_key, item) {
     // delete item from async storage
     // update storage cache
@@ -206,4 +194,38 @@ export default class StorageUnit {
     }
 
   }
+
+  /**
+   *
+   * @param  {string}  storage_key [description]
+   * @return {Promise}             [description]
+   */
+  async getFromAsyncStorage(storage_key) {
+    try {
+      let value = await AsyncStorage.getItem(storage_key);
+      if (value !== null){
+        const response = JSON.parse(value);
+        return response;
+      }
+    } catch (error) {
+      console.log('AsyncStorage error: ' + error.message);
+    }
+  }
+
+  /**
+   * [saveToAsyncStorage description]
+   * @param  {string}  storage_key [description]
+   * @param  {object}  obj         [description]
+   * @return {Promise}             [description]
+   */
+  async saveToAsyncStorage(storage_key, obj) {
+    try {
+      AsyncStorage.setItem(storage_key, obj);
+      console.log('Saved selection to disk: ' + obj);
+    } catch (error) {
+      console.log('AsyncStorage error: ' + error.message);
+    }
+  }
 }
+
+export default StorageUnit;
